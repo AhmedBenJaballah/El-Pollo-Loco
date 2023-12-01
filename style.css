@@ -1,0 +1,39 @@
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background:url("img/10_add_style/intro.png");
+    background-size: cover;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'zabras',Arial, Helvetica, sans-serif;
+    height: 100vh;
+}
+
+@font-face {
+    font-family: 'zabras';
+    src: url('img/10_add_style/fonts/Zabars.ttf');
+}
+
+canvas{
+    border: 1px solid rgba(255, 0, 0, 0.205);
+    border-radius: 35px;
+    display: none;
+}
+h1{
+    font-size: 64px;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+#start {
+    background-image:url('img/9_intro_outro_screens/start/startscreen_1.png');
+    background-size: cover;
+    margin: 0;
+    width: 720px;
+    height:480px;
+    border-radius: 35px;
+    cursor: pointer;
+}
