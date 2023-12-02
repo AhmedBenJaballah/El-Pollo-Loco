@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El pollo loco</title>
     <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <script src="models/drawable-objects.class.js"></script>
-
     <script src="models/movable-objects.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
@@ -17,24 +16,48 @@
     <script src="models/status.class.js"></script>
     <script src="models/status-coin.class.js"></script>
     <script src="models/status-bottle.class.js"></script>
-   
+    <script src="models/status_endboss.class.js"></script>
     <script src="models/world.class.js"></script>
-   
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/throwable-objects.class.js"></script>
     <script src="models/endboss.class.js"></script>
-
-
+    <script src="models/game-over.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
+    
 </head>
 <body onload="init()">
 
     <h1> El Pollo loco</h1>
-    <canvas id="canvas" width="720" height="480">
-        
-    </canvas>
+
+    <div class="rules">
+        <p>D-Taste wirft eine Flasche,
+        <br>
+        Leertaste zum Springen,
+        <br>
+        rechter Pfeil für die Bewegung nach rechts
+        <br>
+        linker Pfeil für die Bewegung nach links.</p>
+    </div>
+    
+    <canvas id="canvas" width="720" height="480"> </canvas>
+
     <img src="img/9_intro_outro_screens/start/startscreen_1.png" id="start" onclick="startGame()">
+   
+    <div  id="btnPanel">
+        <div>
+            <button class="btns" ><i id="leftT" class="bi-arrow-left" style="font-size: 2rem;"></i></button>
+            <button class="btns" ><i id="rightT" class="bi-arrow-right" style="font-size: 2rem;"></i></button>
+        </div>
+        <button class="btns" onclick="toggleSound()"> <i id="soundIcon" class="bi-volume-up-fill" style="font-size: 2rem;"></i></button>
+        <div>
+            <button class="btns" ><i id="upT" class="bi-arrow-up" style="font-size: 2rem;"></i></button>
+            <button class="btns" ><i id="throwT" class="bi-heart-arrow" style="font-size: 2rem;"></i></button>
+        </div>
+    </div>
+    
+       
+    
 </body>
 </html>

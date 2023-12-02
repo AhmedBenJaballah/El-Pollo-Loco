@@ -2,12 +2,15 @@ let level1;
 function initLevel() {
     
     level1=new Level(
+        [
+            new Endboss(),
+        ],
     
         [
             new Chicken(),
             new Chicken(),
             new Chicken(),
-            new Endboss(),
+            
         ],
         [
             new Cloud()
@@ -40,14 +43,14 @@ function initLevel() {
     [
         
     
-        new Coin('img/8_coin/coin_1.png',500,190),
-        new Coin('img/8_coin/coin_1.png',700,190),
+        new Coin('img/8_coin/coin_1.png',500,230),
+        new Coin('img/8_coin/coin_1.png',700,230),
       
 
-        new Coin('img/8_coin/coin_1.png',2*700,190),
-        new Coin('img/8_coin/coin_1.png',3*500,190),
+        new Coin('img/8_coin/coin_1.png',2*700,210),
+        new Coin('img/8_coin/coin_1.png',3*500,200),
 
-        new Coin('img/8_coin/coin_1.png',3*700,190),
+        new Coin('img/8_coin/coin_1.png',3*700,230),
     ]
 );   
 }

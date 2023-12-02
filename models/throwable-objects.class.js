@@ -14,6 +14,8 @@ brokenImage=['img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.p
              'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
 ]
 splash=false;
+hitBoss= false;
+throw_sound= new Audio('audio/throw.mp3');
 
 constructor(x,y){
     super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
@@ -35,34 +37,18 @@ applyGravity(){
             if(this.y<=380){
                 this.y-=this.speedY;
                 this.speedY-=this.acceleration;
-                console.log(this.y)
             }
         }
     }, 1000/25);
 }
 
-
-isBottleOnGround(){
-
-    
-}
-
 bottleImg(){
     setInterval(() => {
-
-        if(this.splash){
-            this.playAnimation(this.brokenImage)
-        }
-        else if(this.y>380){
-            this.playAnimation(this.groundImage)
-        }
-        else{
-            this.playAnimation(this.rotateImage)
-        }
+        if(this.splash) this.playAnimation(this.brokenImage)
+        else if(this.y>380) this.playAnimation(this.groundImage)
+        else this.playAnimation(this.rotateImage)
     }, 50);
 }
-
-
 
 throw(){
     this.speedY=20;
@@ -72,5 +58,6 @@ throw(){
             this.x+=5;
         }
     }, 20);
+    if(isSoundPlaying) this.throw_sound.play();
 }
 }

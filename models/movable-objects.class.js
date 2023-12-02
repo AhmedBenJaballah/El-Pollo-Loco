@@ -31,12 +31,6 @@ class MovableObjects extends DrawableObjects{
         }
     }
 
-
-
-
-
-
-
     isColliding(mo){
         return this.x+ this.width> mo.x &&
         this.y +this.height > mo.y &&
@@ -48,14 +42,11 @@ class MovableObjects extends DrawableObjects{
         this.x -= this.speed;
     }
 
-
     moveRight(){
         this.x += this.speed;
     }
 
-
-    playAnimation(images){
-        
+    playAnimation(images){ 
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img=this.imageCache[path];
@@ -91,7 +82,6 @@ class MovableObjects extends DrawableObjects{
         this.lastBottleCollect= new Date().getTime();  
     }
 
-
     isDead(){
         return this.energy==0
     }
@@ -107,7 +97,6 @@ class MovableObjects extends DrawableObjects{
         timepassed =timepassed/1000;
         return timepassed <1
     }
-
     
     isCollectingBottle(){
         let timepassed=new Date().getTime()-this.lastBottleCollect;

@@ -1,12 +1,12 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let startSound= new Audio('audio/start.mp3');
+let isSoundPlaying = true;
 
 
 function init(){
-    //initLevel();
-    canvas=document.getElementById("canvas")
-    
+    canvas=document.getElementById("canvas");    
 }
 
 window.addEventListener('keydown',(e)=>{
@@ -52,13 +52,44 @@ window.addEventListener('keyup',(e)=>{
     }
 })
 
+function playAndRepeat() {
+    startSound.play(); 
+    if(isSoundPlaying) setTimeout(playAndRepeat, startSound.duration * 1000);
+}
+
 function startGame() {
+    if(isSoundPlaying)playAndRepeat()
     let canvas = document.getElementById('canvas');
     let start = document.getElementById('start');
     initLevel();
-    world= new World(canvas,keyboard);
+    world= new World(canvas,keyboard,isSoundPlaying);
         setTimeout(() => {
             start.style.display='none';
             canvas.style.display='block';
         }, 50);
+}
+
+function toggleSound() {
+    let soundIcon = document.getElementById("soundIcon");
+    if (soundIcon.classList.contains("bi-volume-up-fill")) {
+        soundIcon.classList.remove("bi-volume-up-fill");
+        soundIcon.classList.add("bi-volume-mute-fill");
+    } else {
+        soundIcon.classList.remove("bi-volume-mute-fill");
+        soundIcon.classList.add("bi-volume-up-fill");
+    }
+    if (isSoundPlaying) pauseSound();
+    else playSound();
+}
+
+function playSound() {
+    isSoundPlaying = true;
+    startSound.play();
+    startSound.muted = false;
+}
+
+function pauseSound() {
+    isSoundPlaying = false;
+    startSound.pause();
+    startSound.muted = true;
 }
