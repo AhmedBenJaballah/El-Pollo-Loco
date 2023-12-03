@@ -27,12 +27,10 @@ class World{
         this.setWorld();
         this.run();
     }
-
     
     setWorld(){
         this.character.world= this
     }
-
 
     run(){
         setInterval(() => {
@@ -47,63 +45,45 @@ class World{
     }
 
     checkBottleHitChicken() {
-
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (this.throwableObject.length > 0) {
                 this.throwableObject.forEach((throwableObject, throwableIndex) => {
                     if (enemy.isColliding(throwableObject)&& throwableObject.y<=380) {
-                        console.log(this.brokenBottle);
-                        throwableObject.splash=true;
-                        if(isSoundPlaying) this.splashSound.play();
-                        setTimeout(() => {
-                            this.ctx.clearRect(throwableObject.x, throwableObject.y, throwableObject.width, throwableObject.height);
-                        this.throwableObject.splice(throwableIndex, 1);
-                        }, 100);
-
-                        if(!throwableObject.hitChicken){
-                            throwableObject.hitChicken= true;
-                            this.brokenBottle+=1
-                            enemy.chickenEnergie=0
-                            
-                            setTimeout(() => {
-                                this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
-                                this.level.enemies.splice(enemyIndex, 1);
-                                
-                            }, 1000);
-                        }
+                        this.bottleDesappearChicken(throwableObject,throwableIndex)
+                        if(!throwableObject.hitChicken) this.differentChickenBottle(throwableObject,enemy,enemyIndex);
                     }
                 });
             }
         });
     }
+   
     
+    bottleDesappearChicken(throwableObject,throwableIndex){
+        throwableObject.splash=true;
+        if(isSoundPlaying) this.splashSound.play();
+        setTimeout(() => {
+            this.ctx.clearRect(throwableObject.x, throwableObject.y, throwableObject.width, throwableObject.height);
+            this.throwableObject.splice(throwableIndex, 1);
+        }, 100);
+    }
+
+    differentChickenBottle(throwableObject,enemy,enemyIndex){
+        throwableObject.hitChicken= true;
+        this.brokenBottle+=1
+        enemy.chickenEnergie=0
+        setTimeout(() => {
+            this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            this.level.enemies.splice(enemyIndex, 1);
+        }, 1000);
+    }
+
     checkBottelHitBoss(){
         this.level.boss.forEach((boss1, bossIndex) => {
             if (this.throwableObject.length > 0) {
                 this.throwableObject.forEach((throwableObject, throwableIndex) => {
                     if (boss1.isColliding(throwableObject) && throwableObject.y<=380) {
-                        //console.log(boss1.bossEnergie);
-                        throwableObject.splash=true;
-                        if(isSoundPlaying) this.splashSound.play();
-
-                        setTimeout(() => {
-                        this.ctx.clearRect(throwableObject.x, throwableObject.y, throwableObject.width, throwableObject.height);
-                        this.throwableObject.splice(throwableIndex, 1);
-                        }, 100);
-
-                        if(!throwableObject.hitBoss){
-                            throwableObject.hitBoss=true;
-                            this.brokenBottle+=1
-                            boss1.bossEnergie-=1
-    
-                            if( boss1.bossEnergie==0){
-                                setTimeout(() => {
-                                        this.ctx.clearRect(boss1.x, boss1.y, boss1.width, boss1.height);
-                                        this.level.boss.splice(bossIndex, 1);
-                                    
-                                }, 1500);
-                            }
-                        }
+                        this.bottleDesappearBoss(throwableObject,throwableIndex);
+                        if(!throwableObject.hitBoss) this.differentBottle(throwableObject,boss1,bossIndex);
                     }
 
                 });
@@ -111,21 +91,32 @@ class World{
         });
     }
 
+    bottleDesappearBoss(throwableObject,throwableIndex){
+        throwableObject.splash=true;
+        if(isSoundPlaying) this.splashSound.play();
+
+        setTimeout(() => {
+        this.ctx.clearRect(throwableObject.x, throwableObject.y, throwableObject.width, throwableObject.height);
+        this.throwableObject.splice(throwableIndex, 1);
+        }, 100);
+    }
+
+    differentBottle(throwableObject,boss1,bossIndex){
+        throwableObject.hitBoss=true;
+        this.brokenBottle+=1
+        boss1.bossEnergie-=1
+        if( boss1.bossEnergie==0){
+            setTimeout(() => {
+                    this.ctx.clearRect(boss1.x, boss1.y, boss1.width, boss1.height);
+                    this.level.boss.splice(bossIndex, 1);       
+            }, 1500);
+        }
+    }
+
     checkCollisions() {
         this.level.enemies.forEach((enemy, enemyIndex) => {
-    
-            //console.log(this.character.y) 185
-            //console.log(this.character.height) 280
-            //465
-            //console.log(enemy.height)60
-            //console.log(enemy.y)360
-            //420
-            // console.log(this.character.y+this.character.height)
-            //console.log(this.character.speedY)
-            
             if (this.character.isColliding(enemy)) {
                 if (this.character.y + this.character.height >= 375 && this.character.y + this.character.height <= 420 && !this.character.isHurt()) {
-                    //console.log('ja');
                     enemy.chickenEnergie = 0;
                     this.character.jump()
                     setTimeout(() => {
@@ -140,17 +131,13 @@ class World{
         });
     }
     
-
     checkMoney(){
         this.level.coin.forEach((coin, index) => {
             if(this.character.isColliding(coin)){
-                //console.log('h')
                 this.character.collect();
                 if(isSoundPlaying) this.collectMoneySound.play();
                 this.coinbar.setPercentageCoin(this.character.money);
-                
                 this.ctx.clearRect(coin.x, coin.y, coin.x + coin.width, coin.y + coin.height);
-    
                 this.level.coin.splice(index, 1);
             }
         });
@@ -160,30 +147,24 @@ class World{
             if(this.throwableObject.length>0){
                 this.throwableObject.forEach((throwableObject, index) => {
                     if(this.character.isColliding(this.throwableObject[index])){
-                       // console.log('b')
                        this.ctx.clearRect(this.throwableObject[index].x, this.throwableObject[index].y, this.throwableObject[index].x + this.throwableObject[index].width, this.throwableObject[index].y + this.throwableObject[index].height);
                        this.throwableObject.splice(index, 1);
                         this.character.collectBottle();
                         if(isSoundPlaying) this.collectBottleSound.play();
                         this.bottlebar.setPercentageBottle(this.character.bottleAmount);
-                        
-
                     }
                 });
 
             }
     }
 
-    checkThrowObject(){
-        
+    checkThrowObject(){     
         if(this.keyboard.D){
-            //console.log(this.throwableObject.length)
             if(this.throwableObject.length<(6-this.brokenBottle)){
                 let bottle= new ThrowableObjects(this.character.x+100,this.character.y+100)
                 this.throwableObject.push(bottle)
                 this.character.throwBottle();
                 this.bottlebar.setPercentageBottle(this.character.bottleAmount);
-                //console.log(this.character.bottleAmount)
             }
         }
     }
@@ -191,7 +172,6 @@ class World{
 
     gameOver(){
         if(this.level.boss.length==0 || this.character.isDead()){
-            console.log('game over')
             let game =new GameOver(this.character.x-100);
             setTimeout(() => {
                 this.over.push(game);
