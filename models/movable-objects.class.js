@@ -11,7 +11,9 @@ class MovableObjects extends DrawableObjects{
     bottleAmount=10;
     lastBottleCollect=0;
     
-
+    /**
+     * this function is used after jump to get back on the ground
+     */
     applyGravity(){
         setInterval(() => {
             if(this.isAboveGround() || this.speedY > 0)
@@ -22,6 +24,10 @@ class MovableObjects extends DrawableObjects{
         }, 1000/25);
     }
 
+    /**
+     * this function is used to check is pepe is above the ground
+     * @returns 
+     */
     isAboveGround(){
         if(this instanceof ThrowableObjects){
             return true
@@ -31,6 +37,11 @@ class MovableObjects extends DrawableObjects{
         }
     }
 
+    /**
+     * this function is used to check if two movable objects are colliding or not
+     * @param {object} mo 
+     * @returns 
+     */
     isColliding(mo){
         return this.x+ this.width> mo.x &&
         this.y +this.height > mo.y &&
@@ -38,14 +49,24 @@ class MovableObjects extends DrawableObjects{
         this.y< mo.y + mo.height;
     }
 
+    /**
+     * this function is used to move object left
+     */
     moveLeft(){
         this.x -= this.speed;
     }
 
+    /**
+     * this function is used to move objects right
+     */
     moveRight(){
         this.x += this.speed;
     }
 
+    /**
+     * this function is used to make images look like an animation
+     * @param {array} images 
+     */
     playAnimation(images){ 
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -53,10 +74,16 @@ class MovableObjects extends DrawableObjects{
         this.currentImage++;
     }
 
+    /**
+     * this function is used to make object jump
+     */
     jump(){
         this.speedY=20;
     }
 
+    /**
+     * this function is used to decrease pepe energie
+     */
     hit(){
         this.energy-=1
        if(this.energy<0){
@@ -67,37 +94,62 @@ class MovableObjects extends DrawableObjects{
        }
     }
 
+    /**
+     * this function is used to collect coins
+     */
     collect(){
         this.money+=1;
         this.lastCollect= new Date().getTime();  
     }
 
+    /**
+     * this function is used to collect bottels
+     */
     collectBottle(){
         this.bottleAmount+=1;
         this.lastBottleCollect= new Date().getTime();  
     }
 
+    /**
+     * this function is used to decrease the amount of bottles
+     */
     throwBottle(){
         this.bottleAmount-=1;
         this.lastBottleCollect= new Date().getTime();  
     }
 
+    /**
+     * this function is used to check if pepe is dead
+     * @returns 
+     */
     isDead(){
         return this.energy==0
     }
 
+    /**
+     * this function is used to check if pepe is hurt
+     * @returns 
+     */
     isHurt(){
         let timepassed=new Date().getTime()-this.lastHit;
         timepassed =timepassed/1000;
         return timepassed <1
     }
 
+    /**
+     * this function is used to check if pepe collected coins
+     * @returns 
+     */
     isCollecting(){
         let timepassed=new Date().getTime()-this.lastCollect;
         timepassed =timepassed/1000;
         return timepassed <1
     }
-    
+
+     /**
+     * this function is used to check if pepe collected bottells
+     * @returns 
+     */
     isCollectingBottle(){
         let timepassed=new Date().getTime()-this.lastBottleCollect;
         timepassed =timepassed/1000;

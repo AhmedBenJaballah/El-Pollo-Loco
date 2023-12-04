@@ -28,13 +28,19 @@ class World{
         this.run();
     }
     
+    /**
+     * this function is used to init the world
+     */
     setWorld(){
         this.character.world= this
     }
 
+    /**
+     * this function is used to check pepe aniamations
+     */
     run(){
         setInterval(() => {
-            //this.checkCollisions();
+            this.checkCollisionsBoss();
             this.checkMoney();
             this.checkThrowObject();
             this.checkBottle();
@@ -42,18 +48,14 @@ class World{
             this.checkBottelHitBoss();
             this.gameOver();
         }, 200);
-
-        //let isCollisionCheckRunning = false;  // Variable, um zu überprüfen, ob die Kollisionsüberprüfung bereits läuft
-
         setInterval(() => {
-           // if (!isCollisionCheckRunning) {
-                //isCollisionCheckRunning = true;  // Markiere, dass die Kollisionsüberprüfung läuft
                 this.checkCollisions();
-                //isCollisionCheckRunning = false;  // Setze die Markierung zurück, wenn die Überprüfung abgeschlossen ist
-           // }
         }, 20);
     }
 
+    /**
+     * this function is used to check if bottle hit enemy
+     */
     checkBottleHitChicken() {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (this.throwableObject.length > 0) {
@@ -67,7 +69,11 @@ class World{
         });
     }
    
-    
+    /**
+     * this function is used to make bottel splash and desapear if enemy is hit
+     * @param {object} throwableObject 
+     * @param {int} throwableIndex 
+     */
     bottleDesappearChicken(throwableObject,throwableIndex){
         throwableObject.splash=true;
         if(isSoundPlaying) this.splashSound.play();
@@ -77,6 +83,12 @@ class World{
         }, 100);
     }
 
+    /**
+     * this function is used to check if the bottle is a different bottle than the splashed one
+     * @param {object} throwableObject 
+     * @param {object} enemy 
+     * @param {int} enemyIndex 
+     */
     differentChickenBottle(throwableObject,enemy,enemyIndex){
         throwableObject.hitChicken= true;
         this.brokenBottle+=1
@@ -87,6 +99,9 @@ class World{
         }, 1000);
     }
 
+    /**
+     * this function isused to check if bottle hit boss
+     */
     checkBottelHitBoss(){
         this.level.boss.forEach((boss1, bossIndex) => {
             if (this.throwableObject.length > 0) {
@@ -100,16 +115,24 @@ class World{
         });
     }
 
+    /**
+     * this function is used to make bottle desappear if boss is hit
+     */
     bottleDesappearBoss(throwableObject,throwableIndex){
         throwableObject.splash=true;
         if(isSoundPlaying) this.splashSound.play();
-
         setTimeout(() => {
         this.ctx.clearRect(throwableObject.x, throwableObject.y, throwableObject.width, throwableObject.height);
         this.throwableObject.splice(throwableIndex, 1);
         }, 100);
     }
 
+    /**
+     * this function is used to check if the bottle is different after hitting boss
+     * @param {object} throwableObject 
+     * @param {object} boss1 
+     * @param {int} bossIndex 
+     */
     differentBottle(throwableObject,boss1,bossIndex){
         throwableObject.hitBoss=true;
         this.brokenBottle+=1
@@ -123,22 +146,16 @@ class World{
         }
     }
 
+    /**
+     * this function is used to check is pepe is colliding with enemies
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.y + this.character.height >= 375 && this.character.y + this.character.height <= 420 && !this.character.isHurt() && this.character.x >= enemy.x - 50 && this.character.x <= enemy.x + 50) {
+                if (this.isAboveChicken(enemy)) {
                     enemy.chickenEnergie = 0;
-                    console.log('c' + enemyIndex);
                     this.character.jump();
-    
-                    setTimeout(() => {
-                        console.log('d' + enemyIndex);
-                        const index = this.level.enemies.indexOf(enemy); // Finde den aktuellen Index des Feindes
-                        if (index !== -1) {
-                            this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
-                            this.level.enemies.splice(index, 1);  // Lösche den zuvor markierten Feind
-                        }
-                    }, 1000);
+                    this.findAndDeletEnemy(enemy)
                 } else {
                     this.character.hit();
                     this.statusbar.setPercentage(this.character.energy);
@@ -146,9 +163,45 @@ class World{
             }
         });
     }
+
+    /**
+     * this function is used to check if pepe is above enemy
+     * @param {object} enemy 
+     * @returns 
+     */
+    isAboveChicken(enemy){
+        return this.character.y + this.character.height >= 375 && this.character.y + this.character.height <= 420 && !this.character.isHurt() && this.character.x >= enemy.x - 50 && this.character.x <= enemy.x + 50
+    }
+
+    /**
+     * this function is used to delete the killed enemy
+     * @param {object} enemy 
+     */
+    findAndDeletEnemy(enemy){
+        setTimeout(() => {
+            const index = this.level.enemies.indexOf(enemy); 
+            if (index !== -1) {
+                this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                this.level.enemies.splice(index, 1);  
+            }
+        }, 1000);
+    }
+
+    /**
+     * this function is used to check if pepe is hit by endboss
+     */
+    checkCollisionsBoss() {
+        this.level.boss.forEach((boss) => {
+            if (this.character.isColliding(boss)) {
+                    this.character.hit();
+                    this.statusbar.setPercentage(this.character.energy);
+                }
+        });
+    }
     
-    
-    
+    /**
+     * this function is used to collect money
+     */
     checkMoney(){
         this.level.coin.forEach((coin, index) => {
             if(this.character.isColliding(coin)){
@@ -161,6 +214,9 @@ class World{
         });
     }
 
+    /**
+     * this function is used to collect the bottels on the ground
+     */
     checkBottle(){
             if(this.throwableObject.length>0){
                 this.throwableObject.forEach((throwableObject, index) => {
@@ -176,6 +232,9 @@ class World{
             }
     }
 
+    /**
+     * this function is used to throw bottels
+     */
     checkThrowObject(){     
         if(this.keyboard.D){
             this.character.lastInteractionTime = new Date();
@@ -188,7 +247,9 @@ class World{
         }
     }
 
-
+    /**
+     * this function is used for endscreen
+     */
     gameOver(){
         if(this.level.boss.length==0 || this.character.isDead()){
             let game =new GameOver(this.character.x-100);
@@ -201,6 +262,9 @@ class World{
         }
     }
 
+    /**
+     * this function is used to draw every element
+     */
     draw(){
         this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -221,9 +285,7 @@ class World{
         this.ctx.translate(this.camera_x,0);
 
         this.addToMap(this.bossbar)
-
         this.addToMap(this.character);
-        
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.boss);
         this.addObjectsToMap(this.level.coin);
@@ -238,23 +300,35 @@ class World{
         })
     }
 
+    /**
+     * this function is used to display images/objects
+     * @param {object} objects 
+     */
     addObjectsToMap(objects){
         objects.forEach(o => {
             this.addToMap(o)
         });
     }
 
+    /**
+     * this function is used to add objects to the map
+     * @param {object} mo 
+     */
     addToMap(mo){
         if(mo.otherDirection){
             this.flipImage(mo)
         }
         mo.draw(this.ctx)
-        mo.drawFrame(this.ctx)
+        //mo.drawFrame(this.ctx)
         if(mo.otherDirection){
             this.flipImageBack(mo)
         }
     }
 
+    /**
+     * this function is used to flip pepe image
+     * @param {object} mo 
+     */
     flipImage(mo){
         this.ctx.save();
         this.ctx.translate(mo.width,0);
@@ -262,6 +336,10 @@ class World{
         mo.x=mo.x * -1;
     }
 
+    /**
+     * this function is used to flip pepe image back
+     * @param {object} mo 
+     */
     flipImageBack(mo){
         this.ctx.restore();
         mo.x=mo.x * -1;

@@ -1,6 +1,9 @@
 let level1; 
-function initLevel() {
-    
+
+/**
+ * this function is usd to initialise the level
+ */
+function initLevel() {   
     level1=new Level(
         [
             new Endboss(),
@@ -23,7 +26,6 @@ function initLevel() {
             new BackgroundObject('img/5_background/layers/3_third_layer/2.png',-719),
             new BackgroundObject('img/5_background/layers/2_second_layer/2.png',-719),
             new BackgroundObject('img/5_background/layers/1_first_layer/2.png',-719),
-    
             new BackgroundObject('img/5_background/layers/air.png',0),
             new BackgroundObject('img/5_background/layers/3_third_layer/1.png',0),
             new BackgroundObject('img/5_background/layers/2_second_layer/1.png',0),
@@ -32,7 +34,6 @@ function initLevel() {
             new BackgroundObject('img/5_background/layers/3_third_layer/2.png',719),
             new BackgroundObject('img/5_background/layers/2_second_layer/2.png',719),
             new BackgroundObject('img/5_background/layers/1_first_layer/2.png',719),
-    
             new BackgroundObject('img/5_background/layers/air.png',719*2),
             new BackgroundObject('img/5_background/layers/3_third_layer/1.png',719*2),
             new BackgroundObject('img/5_background/layers/2_second_layer/1.png',719*2),
@@ -41,18 +42,17 @@ function initLevel() {
             new BackgroundObject('img/5_background/layers/3_third_layer/2.png',719*3),
             new BackgroundObject('img/5_background/layers/2_second_layer/2.png',719*3),
             new BackgroundObject('img/5_background/layers/1_first_layer/2.png',719*3),
+            new BackgroundObject('img/5_background/layers/air.png',719*4),
+            new BackgroundObject('img/5_background/layers/3_third_layer/1.png',719*4),
+            new BackgroundObject('img/5_background/layers/2_second_layer/1.png',719*4),
+            new BackgroundObject('img/5_background/layers/1_first_layer/1.png',719*4),
         ],
 
     [
-        
-    
         new Coin('img/8_coin/coin_1.png',500,230),
         new Coin('img/8_coin/coin_1.png',700,230),
-      
-
         new Coin('img/8_coin/coin_1.png',2*700,210),
         new Coin('img/8_coin/coin_1.png',3*500,200),
-
         new Coin('img/8_coin/coin_1.png',3*700,230),
     ]
 );   

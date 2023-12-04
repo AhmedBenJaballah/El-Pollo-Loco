@@ -33,6 +33,9 @@ constructor(x,y){
     this.bottleImg();
 }
 
+/**
+ * this function is used to attract the bottle to the ground
+ */
 applyGravity(){
     setInterval(() => {
         if(this.isAboveGround() || this.speedY > 0 )
@@ -45,6 +48,9 @@ applyGravity(){
     }, 1000/25);
 }
 
+/**
+ * this function is used to check the right bottle image
+ */
 bottleImg(){
     setInterval(() => {
         if(this.splash) this.playAnimation(this.brokenImage)
@@ -53,6 +59,9 @@ bottleImg(){
     }, 50);
 }
 
+/**
+ * this function is used to throw bottels
+ */
 throw(){
     this.speedY=20;
     this.applyGravity();
@@ -61,7 +70,6 @@ throw(){
             this.x+=5;
         }
     }, 20);
-    if(isSoundPlaying) this.throw_sound.play();
-    
+    if(isSoundPlaying) this.throw_sound.play(); 
 }
 }

@@ -21,13 +21,14 @@ class Chicken extends MovableObjects{
             super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
             this.loadImages(this.IMAGES_WALKING);
             this.loadImages(this.IMAGES_DEAD);
-            //this.x=500
             this.x=400 +Math.random()*2000;
             this.speed=0.15 + Math.random() * 0.5
             this.animate();
         }
     
-       
+       /**
+        * this function is used to animate the enemies
+        */
         animate(){
             const clear =setInterval(() => {
               this.moveLeft();
@@ -38,6 +39,10 @@ class Chicken extends MovableObjects{
             }, 200);
         }
         
+        /**
+         * this function is used to undraw the killed enemy
+         * @param {Interval} clear 
+         */
         chickenIsDead(clear){
             this.playAnimation(this.IMAGES_DEAD);
             if(isSoundPlaying) this.dead_chicken_sound.play();

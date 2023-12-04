@@ -20,12 +20,20 @@ class StatusBarCoin extends DrawableObjects{
         this.setPercentageCoin(0);
     }
 
+    /**
+     * this function is used to adjust the statusbar of the coins
+     * @param {int} percetageCoin 
+     */
     setPercentageCoin(percetageCoin){
         this.percetageCoin=percetageCoin;
         let path=this.IMAGES[this.resolveImageIndex()];
         this.img=this.imageCache[path];
     }
     
+    /**
+     * this function is used to get the right img
+     * @returns 
+     */
     resolveImageIndex(){
         if(this.percetageCoin > 4){
             return 5

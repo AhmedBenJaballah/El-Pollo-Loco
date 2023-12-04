@@ -12,6 +12,9 @@ class Keyboard{
        }, 1000);
     }
 
+    /**
+     * this function is used to pla in mobile mode
+     */
     mobile(){
         document.getElementById('leftT').addEventListener('touchstart',(e)=>{
             e.preventDefault();

@@ -1,19 +1,5 @@
 class StatusBarBoss extends MovableObjects{
    
-    // IMAGES=[
-    //     'img/7_statusbars/2_statusbar_endboss/blue.png',
-    // ];
-
-    // constructor(){
-    //     super()
-    //     this.loadImage(this.IMAGES[0]);
-    //     this.x=2600;
-    //     this.y=0;
-    //     this.height=60;
-    //     this.width=200;
-    // }
-
-
         IMAGES=[
             'img/7_statusbars/2_statusbar_endboss/0.png',
             'img/7_statusbars/2_statusbar_endboss/20.png',
@@ -22,6 +8,7 @@ class StatusBarBoss extends MovableObjects{
             'img/7_statusbars/2_statusbar_endboss/80.png',
             'img/7_statusbars/2_statusbar_endboss/100.png',
         ];
+
         reachedEndLeft = false;
         reachedEndRight = false;
         percetageBoss=5;
@@ -38,12 +25,20 @@ class StatusBarBoss extends MovableObjects{
             this.animate();
         }
     
+        /**
+         * this function is used to adjust the status bar of endboss
+         * @param {int} percetageBoss 
+         */
         setPercentageBoss(percetageBoss){
             this.percetageBoss=percetageBoss;
             let path=this.IMAGES[this.resolveImageIndex()];
             this.img=this.imageCache[path];
         }
         
+        /**
+         * this function is used to get the right img
+         * @returns 
+         */
         resolveImageIndex(){
             if(this.percetageBoss==5){
                 return 5
@@ -67,14 +62,18 @@ class StatusBarBoss extends MovableObjects{
             }
         }
 
-
-
+        /**
+         * this function is used to animate the endboss statusbar
+         */
         animate(){
             setInterval(() => {
                 this.statusMove();
             }, 100);
         }
     
+        /**
+         * this function is used to make the statusbar move
+         */
         statusMove() {
             if (this.x >= 2350 && !this.reachedEndLeft) {
                 this.moveLeft();
@@ -92,6 +91,4 @@ class StatusBarBoss extends MovableObjects{
     
         }
 
-
-    
 }

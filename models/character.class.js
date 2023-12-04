@@ -85,6 +85,10 @@ class Character extends MovableObjects{
         this.animate();
     }
 
+
+    /**
+     * this function is used to animate pepe
+     */
     animate(){
         setInterval(() => {
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) this.pepeMoveRight();
@@ -93,23 +97,25 @@ class Character extends MovableObjects{
             if(this.world.keyboard.SPACE && !this.isAboveGround()) this.pepeJump();
         }, 1000/60);
         setInterval(() => {
-            if (Date.now() - this.lastInteractionTime > 10000) {
-                this.playAnimation(this.IMAGES_SLEEP);
-            }
+            if (Date.now() - this.lastInteractionTime > 10000) this.playAnimation(this.IMAGES_SLEEP);
             else if(this.isDead())this.pepeDead();
             else if(this.isHurt())this.pepeHurt();
             else if(this.isAboveGround())this.playAnimation(this.IMAGES_JUMPING);
             else if(this.world.keyboard.RIGHT||this.world.keyboard.LEFT ) this.pepeWalk();
             else this.playAnimation(this.IMAGES_WAIT)
         }, 100);
-
-
     }
-    
+
+    /**
+     * this function is used so pepe can jump
+     */
     jump(){
         this.speedY=20;
     }
 
+    /**
+     * this function is used to make pepe move right
+     */
     pepeMoveRight(){
         this.moveRight();
         this.otherDirection= false;
@@ -117,6 +123,9 @@ class Character extends MovableObjects{
         this.lastInteractionTime = new Date();
     }
 
+    /**
+     * this function is used to make pepe move left
+     */
     pepeMoveLeft(){
         this.moveLeft();
         this.otherDirection= true;
@@ -124,22 +133,34 @@ class Character extends MovableObjects{
         this.lastInteractionTime = new Date();
     }
 
+    /**
+     * this function is used to make pepe jump
+     */
     pepeJump(){
         this.jump();
         if(isSoundPlaying)this.jumping_sound.play();
         this.lastInteractionTime = new Date();
     }
 
+    /**
+     * this funcion is used to animate pepe if he dies
+     */
     pepeDead(){
         this.playAnimation(this.IMAGES_DEAD);
         if(isSoundPlaying) this.dead_sound.play();  
     }
 
+    /**
+     * this function is used to animate pepe  if he is hurt
+     */
     pepeHurt(){
         this.playAnimation(this.IMAGES_HURT);
         if(isSoundPlaying) this.hurt_sound.play();
     }
 
+    /**
+     * this function is used to make pepe walk
+     */
     pepeWalk(){
             this.playAnimation(this.IMAGES_WALKING);
             if(isSoundPlaying) {this.walking_sound.play()}

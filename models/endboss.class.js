@@ -54,8 +54,10 @@ class Endboss extends MovableObjects{
         this.animate();
     }
 
+    /**
+     * this function is used to animate the endboss
+     */
     animate(){
-        
         setInterval(() => {
             this.bossMove() 
             if( this.bossEnergie==2 || this.bossEnergie==1) this.bossHurt();
@@ -69,12 +71,17 @@ class Endboss extends MovableObjects{
         }, 100);
     }
 
-
+    /**
+     * this function is used to animate endboss if he is hurt
+     */
     bossHurt(){
         this.playAnimation(this.IMAGES_Hurt);
         if(isSoundPlaying) this.angry_boss_sound.play();
     }
 
+    /**
+     * this function is used to animate endboss if he dies
+     */
     bossDead(){
         for (let i = 0; i < this.IMAGES_DEAD.length; i++) {
             let path = this.IMAGES_DEAD[i];
@@ -83,12 +90,10 @@ class Endboss extends MovableObjects{
         }
     }
 
-     
-
-    
-
+    /**
+     * this function  is used to make endboss move left and right
+     */
     bossMove() {
-
         if (this.x >= 2350 && !this.reachedEndLeft) {
             this.moveLeft();
             if (this.x <= 2350) {
@@ -102,7 +107,6 @@ class Endboss extends MovableObjects{
                 this.reachedEndLeft = false;
             }
         }
-
     }
     
     

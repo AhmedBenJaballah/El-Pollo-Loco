@@ -20,12 +20,20 @@ class StatusBarBottle extends DrawableObjects{
         this.setPercentageBottle(10);
     }
 
+    /**
+     * this function is used to get the right img
+     * @returns 
+     */
     setPercentageBottle(percetageBottle){
         this.percetageBottle=percetageBottle;
         let path=this.IMAGES[this.resolveImageIndex()];
         this.img=this.imageCache[path];
     }
     
+    /**
+     * this function is used to adjust the statusbar of the bottels
+     * @param {int} percetageBottle 
+     */
     resolveImageIndex(){
         if(this.percetageBottle==10 || this.percetageBottle==9){
             return 5
