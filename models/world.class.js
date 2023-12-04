@@ -34,7 +34,7 @@ class World{
 
     run(){
         setInterval(() => {
-            this.checkCollisions();
+            //this.checkCollisions();
             this.checkMoney();
             this.checkThrowObject();
             this.checkBottle();
@@ -42,6 +42,16 @@ class World{
             this.checkBottelHitBoss();
             this.gameOver();
         }, 200);
+
+        //let isCollisionCheckRunning = false;  // Variable, um zu überprüfen, ob die Kollisionsüberprüfung bereits läuft
+
+        setInterval(() => {
+           // if (!isCollisionCheckRunning) {
+                //isCollisionCheckRunning = true;  // Markiere, dass die Kollisionsüberprüfung läuft
+                this.checkCollisions();
+                //isCollisionCheckRunning = false;  // Setze die Markierung zurück, wenn die Überprüfung abgeschlossen ist
+           // }
+        }, 20);
     }
 
     checkBottleHitChicken() {
@@ -85,7 +95,6 @@ class World{
                         this.bottleDesappearBoss(throwableObject,throwableIndex);
                         if(!throwableObject.hitBoss) this.differentBottle(throwableObject,boss1,bossIndex);
                     }
-
                 });
             }
         });
@@ -105,6 +114,7 @@ class World{
         throwableObject.hitBoss=true;
         this.brokenBottle+=1
         boss1.bossEnergie-=1
+        this.bossbar.setPercentageBoss(boss1.bossEnergie)
         if( boss1.bossEnergie==0){
             setTimeout(() => {
                     this.ctx.clearRect(boss1.x, boss1.y, boss1.width, boss1.height);
@@ -116,12 +126,18 @@ class World{
     checkCollisions() {
         this.level.enemies.forEach((enemy, enemyIndex) => {
             if (this.character.isColliding(enemy)) {
-                if (this.character.y + this.character.height >= 375 && this.character.y + this.character.height <= 420 && !this.character.isHurt()) {
+                if (this.character.y + this.character.height >= 375 && this.character.y + this.character.height <= 420 && !this.character.isHurt() && this.character.x >= enemy.x - 50 && this.character.x <= enemy.x + 50) {
                     enemy.chickenEnergie = 0;
-                    this.character.jump()
+                    console.log('c' + enemyIndex);
+                    this.character.jump();
+    
                     setTimeout(() => {
-                        this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
-                        this.level.enemies.splice(enemyIndex, 1);
+                        console.log('d' + enemyIndex);
+                        const index = this.level.enemies.indexOf(enemy); // Finde den aktuellen Index des Feindes
+                        if (index !== -1) {
+                            this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                            this.level.enemies.splice(index, 1);  // Lösche den zuvor markierten Feind
+                        }
                     }, 1000);
                 } else {
                     this.character.hit();
@@ -130,6 +146,8 @@ class World{
             }
         });
     }
+    
+    
     
     checkMoney(){
         this.level.coin.forEach((coin, index) => {
@@ -160,7 +178,8 @@ class World{
 
     checkThrowObject(){     
         if(this.keyboard.D){
-            if(this.throwableObject.length<(6-this.brokenBottle)){
+            this.character.lastInteractionTime = new Date();
+            if(this.throwableObject.length<(10-this.brokenBottle)){
                 let bottle= new ThrowableObjects(this.character.x+100,this.character.y+100)
                 this.throwableObject.push(bottle)
                 this.character.throwBottle();

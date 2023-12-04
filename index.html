@@ -29,16 +29,23 @@
 </head>
 <body onload="init()">
 
-    <h1> El Pollo loco</h1>
-
-    <div class="rules">
-        <p>D-Taste wirft eine Flasche,
-        <br>
-        Leertaste zum Springen,
-        <br>
-        rechter Pfeil für die Bewegung nach rechts
-        <br>
-        linker Pfeil für die Bewegung nach links.</p>
+    <div class="title">
+        <div class="rules">
+            <p>D-Taste wirft eine Flasche,
+            <br>
+            Leertaste zum Springen,
+           </p>
+        </div>
+    
+        <h1> El Pollo loco</h1>
+    
+        <div class="rules">
+            <p>
+            rechter Pfeil für die Bewegung nach rechts
+            <br>
+            linker Pfeil für die Bewegung nach links.
+            </p>
+        </div>
     </div>
     
     <canvas id="canvas" width="720" height="480"> </canvas>
@@ -46,15 +53,19 @@
     <img src="img/9_intro_outro_screens/start/startscreen_1.png" id="start" onclick="startGame()">
    
     <div  id="btnPanel">
-        <div>
+        <div class="t-toggle">
             <button class="btns" ><i id="leftT" class="bi-arrow-left" style="font-size: 2rem;"></i></button>
             <button class="btns" ><i id="rightT" class="bi-arrow-right" style="font-size: 2rem;"></i></button>
         </div>
         <button class="btns" onclick="toggleSound()"> <i id="soundIcon" class="bi-volume-up-fill" style="font-size: 2rem;"></i></button>
-        <div>
+        <div class="t-toggle">
             <button class="btns" ><i id="upT" class="bi-arrow-up" style="font-size: 2rem;"></i></button>
             <button class="btns" ><i id="throwT" class="bi-heart-arrow" style="font-size: 2rem;"></i></button>
         </div>
+    </div>
+
+    <div class="turnDev">
+        <button class="btn btn-secondary"> Please Turn Device <i class="bi-arrow-repeat" style="font-size: 2rem;"></i></button>
     </div>
     
        

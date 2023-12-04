@@ -8,6 +8,33 @@ class Character extends MovableObjects{
     jumping_sound= new Audio('audio/jump.mp3');
     hurt_sound= new Audio('audio/hurt.mp3');
     dead_sound= new Audio('audio/dead.mp3');
+
+    IMAGES_SLEEP=[
+        'img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img/2_character_pepe/1_idle/long_idle/I-20.png',
+    ]
+
+    IMAGES_WAIT=[
+        'img/2_character_pepe/1_idle/idle/I-1.png',
+        'img/2_character_pepe/1_idle/idle/I-2.png',
+        'img/2_character_pepe/1_idle/idle/I-3.png',
+        'img/2_character_pepe/1_idle/idle/I-4.png',
+        'img/2_character_pepe/1_idle/idle/I-5.png',
+        'img/2_character_pepe/1_idle/idle/I-6.png',
+        'img/2_character_pepe/1_idle/idle/I-7.png',
+        'img/2_character_pepe/1_idle/idle/I-8.png',
+        'img/2_character_pepe/1_idle/idle/I-9.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png',
+    ]
+
     IMAGES_WALKING=[
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
@@ -45,12 +72,15 @@ class Character extends MovableObjects{
         'img/2_character_pepe/4_hurt/H-43.png',
     ]
 
+    lastInteractionTime = new Date()
     constructor(){
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_SLEEP);
+        this.loadImages(this.IMAGES_WAIT);
         this.applyGravity();
         this.animate();
     }
@@ -63,11 +93,17 @@ class Character extends MovableObjects{
             if(this.world.keyboard.SPACE && !this.isAboveGround()) this.pepeJump();
         }, 1000/60);
         setInterval(() => {
-            if(this.isDead())this.pepeDead();
+            if (Date.now() - this.lastInteractionTime > 10000) {
+                this.playAnimation(this.IMAGES_SLEEP);
+            }
+            else if(this.isDead())this.pepeDead();
             else if(this.isHurt())this.pepeHurt();
             else if(this.isAboveGround())this.playAnimation(this.IMAGES_JUMPING);
-            else this.pepeWalk();
-        }, 50);
+            else if(this.world.keyboard.RIGHT||this.world.keyboard.LEFT ) this.pepeWalk();
+            else this.playAnimation(this.IMAGES_WAIT)
+        }, 100);
+
+
     }
     
     jump(){
@@ -78,17 +114,20 @@ class Character extends MovableObjects{
         this.moveRight();
         this.otherDirection= false;
         if(isSoundPlaying) this.walking_sound.play();
+        this.lastInteractionTime = new Date();
     }
 
     pepeMoveLeft(){
         this.moveLeft();
         this.otherDirection= true;
         if(isSoundPlaying) this.walking_sound.play();
+        this.lastInteractionTime = new Date();
     }
 
     pepeJump(){
         this.jump();
         if(isSoundPlaying)this.jumping_sound.play();
+        this.lastInteractionTime = new Date();
     }
 
     pepeDead(){
@@ -102,9 +141,7 @@ class Character extends MovableObjects{
     }
 
     pepeWalk(){
-        if(this.world.keyboard.RIGHT||this.world.keyboard.LEFT ){
             this.playAnimation(this.IMAGES_WALKING);
             if(isSoundPlaying) {this.walking_sound.play()}
-        }
     }
 }

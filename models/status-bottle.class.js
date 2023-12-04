@@ -8,7 +8,7 @@ class StatusBarBottle extends DrawableObjects{
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png',
     ];
     
-    percetageBottle=5;
+    percetageBottle=10;
 
     constructor(){
         super()
@@ -17,7 +17,7 @@ class StatusBarBottle extends DrawableObjects{
         this.y=80;
         this.height=60;
         this.width=200;
-        this.setPercentageBottle(5);
+        this.setPercentageBottle(10);
     }
 
     setPercentageBottle(percetageBottle){
@@ -27,19 +27,19 @@ class StatusBarBottle extends DrawableObjects{
     }
     
     resolveImageIndex(){
-        if(this.percetageBottle==5){
+        if(this.percetageBottle==10 || this.percetageBottle==9){
             return 5
         }
-        else if(this.percetageBottle == 4){
+        else if(this.percetageBottle == 8 || this.percetageBottle==7){
             return 4
         }
-        else if(this.percetageBottle == 3){
+        else if(this.percetageBottle == 6 || this.percetageBottle==5){
             return 3
         }
-        else if(this.percetageBottle == 2){
+        else if(this.percetageBottle == 4 || this.percetageBottle==3){
             return 2
         }
-        else if(this.percetageBottle == 1){
+        else if(this.percetageBottle == 2 || this.percetageBottle==1){
             return 1
         }
         else {

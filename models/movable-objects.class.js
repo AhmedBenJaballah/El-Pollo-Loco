@@ -8,7 +8,7 @@ class MovableObjects extends DrawableObjects{
     lastHit=0;
     lastCollect=0;
     money=0;
-    bottleAmount=5;
+    bottleAmount=10;
     lastBottleCollect=0;
     
 
@@ -58,7 +58,7 @@ class MovableObjects extends DrawableObjects{
     }
 
     hit(){
-        this.energy-=5
+        this.energy-=1
        if(this.energy<0){
         this.energy=0
        }
