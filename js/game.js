@@ -69,10 +69,12 @@ function startGame() {
     if(isSoundPlaying)playAndRepeat()
     let canvas = document.getElementById('canvas');
     let start = document.getElementById('start');
+    let startBtn = document.getElementById('startBtn');
     initLevel();
     world= new World(canvas,keyboard,isSoundPlaying);
         setTimeout(() => {
             start.style.display='none';
+            startBtn.style.display='none';
             canvas.style.display='block';
         }, 50);
 }

@@ -33,7 +33,7 @@ class MovableObjects extends DrawableObjects{
             return true
         } else
         {
-            return this.y < 180
+            return this.y < 150
         }
     }
 
@@ -42,13 +42,23 @@ class MovableObjects extends DrawableObjects{
      * @param {object} mo 
      * @returns 
      */
-    isColliding(mo){
-        return this.x+ this.width> mo.x &&
-        this.y +this.height > mo.y &&
-        this.x <mo.x &&
-        this.y< mo.y + mo.height;
+    isColliding (mo) {
+        return  (this.x + this.width) >= mo.x && this.x <= (mo.x + mo.width) && 
+                (this.y + 0+ this.height) >= mo.y &&
+                (this.y + 0) <= (mo.y + mo.height)
     }
 
+        /**
+     * this function is used to check if two movable objects are colliding or not
+     * @param {object} mo 
+     * @returns 
+     */
+        isCollidingMoney (mo) {
+            return  (this.x-80 + this.width) >= mo.x && (this.x+80) <= (mo.x + mo.width) && 
+                    (this.y -80+ this.height) >= mo.y &&
+                    (this.y  -80) <= (mo.y + mo.height)
+        }
+    
     /**
      * this function is used to move object left
      */

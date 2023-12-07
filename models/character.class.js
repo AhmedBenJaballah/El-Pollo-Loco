@@ -105,7 +105,7 @@ class Character extends MovableObjects{
             else this.playAnimation(this.IMAGES_WAIT)
         }, 100);
     }
-
+    
     /**
      * this function is used so pepe can jump
      */

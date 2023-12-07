@@ -6,6 +6,7 @@ class Endboss extends MovableObjects{
     bossEnergie=5;
     reachedEndLeft = false;
     reachedEndRight = false;
+    firstContact=false;
     angry_boss_sound=new Audio('audio/angry_boss.mp3');
     dead_boss_sound=new Audio('audio/dead_boss.mp3');
 
@@ -51,23 +52,51 @@ class Endboss extends MovableObjects{
         this.loadImages(this.IMAGES_ATTAK);
         this.x=2600;
         this.speed=10;
-        this.animate();
+        this.animate2();
+    }
+
+    firstContact=false;
+
+
+    animate(){
+        setInterval(() => {
+            if(this.bossEnergie==5)this.bossMove();
+            else if(this.bossEnergie==4){
+                this.playAnimation(this.IMAGES_ATTAK)
+                this.reachedEndLeft = true;
+                this.reachedEndRight = true;
+                this.moveLeft();
+                this.speed=20;}
+            else if( this.bossEnergie==2 || this.bossEnergie==1 ||  this.bossEnergie==3 ){
+                this.bossHurt();
+                this.reachedEndLeft = true;
+                this.reachedEndRight = true;
+                this.moveLeft();
+                this.speed=40;}
+            else if(this.bossEnergie==0){
+                this.bossDead();
+                this.bossEnergie=-1;}
+        }, 100);
     }
 
     /**
      * this function is used to animate the endboss
      */
-    animate(){
+    animate2(){
         setInterval(() => {
-            this.bossMove() 
-            if( this.bossEnergie==2 || this.bossEnergie==1) this.bossHurt();
+            if(world.character.x>2200 && !this.firstContact) this.firstContact=true
+            else if(this.firstContact && (this.bossEnergie==5 || this.bossEnergie==4 )){
+                this.playAnimation(this.IMAGES_ATTAK)
+                this.moveLeft();
+                this.speed=20;}
+            else if( this.bossEnergie==2 || this.bossEnergie==1 ||  this.bossEnergie==3 ){
+                this.bossHurt();
+                this.moveLeft();
+                this.speed=25;}
             else if(this.bossEnergie==0){
                 this.bossDead();
-                this.bossEnergie=-1;
-                this.reachedEndLeft = true;
-                this.reachedEndRight = true;
-            }
-            else if(this.bossEnergie>2) this.playAnimation(this.IMAGES_ATTAK);
+                this.bossEnergie=-1;}
+            else if(this.bossEnergie==5) this.playAnimation(this.IMAGES_WALKING);
         }, 100);
     }
 
@@ -108,6 +137,8 @@ class Endboss extends MovableObjects{
             }
         }
     }
+
+
     
     
     

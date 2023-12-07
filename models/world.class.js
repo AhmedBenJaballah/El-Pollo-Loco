@@ -40,16 +40,18 @@ class World{
      */
     run(){
         setInterval(() => {
-            this.checkCollisionsBoss();
-            this.checkMoney();
-            this.checkThrowObject();
+            this.checkCollisionsBoss();            
             this.checkBottle();
             this.checkBottleHitChicken();
             this.checkBottelHitBoss();
             this.gameOver();
         }, 200);
         setInterval(() => {
-                this.checkCollisions();
+            this.checkCollisions();
+            this.checkThrowObject();
+        }, 100);
+        setInterval(() => {
+            this.checkMoney();  
         }, 20);
     }
 
@@ -150,12 +152,12 @@ class World{
      * this function is used to check is pepe is colliding with enemies
      */
     checkCollisions() {
-        this.level.enemies.forEach((enemy, enemyIndex) => {
+        this.level.enemies.forEach(async (enemy, enemyIndex) => {
             if (this.character.isColliding(enemy)) {
-                if (this.isAboveChicken(enemy)) {
+                if (this.isAboveChicken(enemy)== true) {
                     enemy.chickenEnergie = 0;
                     this.character.jump();
-                    this.findAndDeletEnemy(enemy)
+                    await this.findAndDeletEnemy(enemy)
                 } else {
                     this.character.hit();
                     this.statusbar.setPercentage(this.character.energy);
@@ -170,21 +172,21 @@ class World{
      * @returns 
      */
     isAboveChicken(enemy){
-        return this.character.y + this.character.height >= 375 && this.character.y + this.character.height <= 420 && !this.character.isHurt() && this.character.x >= enemy.x - 50 && this.character.x <= enemy.x + 50
+        return this.character.y + this.character.height >= 300 && this.character.y + this.character.height <= 420  && this.character.x >= enemy.x - 100 && this.character.x <= enemy.x + 100 && !this.character.isHurt()
     }
 
     /**
      * this function is used to delete the killed enemy
      * @param {object} enemy 
      */
-    findAndDeletEnemy(enemy){
+    async findAndDeletEnemy(enemy){
         setTimeout(() => {
             const index = this.level.enemies.indexOf(enemy); 
             if (index !== -1) {
                 this.ctx.clearRect(enemy.x, enemy.y, enemy.width, enemy.height);
                 this.level.enemies.splice(index, 1);  
             }
-        }, 1000);
+        }, 800);
     }
 
     /**
@@ -193,6 +195,7 @@ class World{
     checkCollisionsBoss() {
         this.level.boss.forEach((boss) => {
             if (this.character.isColliding(boss)) {
+                    this.character.energy-=100
                     this.character.hit();
                     this.statusbar.setPercentage(this.character.energy);
                 }
@@ -204,7 +207,7 @@ class World{
      */
     checkMoney(){
         this.level.coin.forEach((coin, index) => {
-            if(this.character.isColliding(coin)){
+            if(this.character.isCollidingMoney(coin)){
                 this.character.collect();
                 if(isSoundPlaying) this.collectMoneySound.play();
                 this.coinbar.setPercentageCoin(this.character.money);
@@ -250,17 +253,33 @@ class World{
     /**
      * this function is used for endscreen
      */
-    gameOver(){
-        if(this.level.boss.length==0 || this.character.isDead()){
-            let game =new GameOver(this.character.x-100);
+    gameOver() {
+        if (this.level.boss.length == 0 || this.character.isDead()) {
             setTimeout(() => {
-                this.over.push(game);
+                this.clearAllIntervals();
+                this.showGameOverScreen();
             }, 500);
-            setTimeout(() => {
-                window.location.reload();
-            }, 2500);
         }
     }
+    
+    /**
+     * this shos the end screen
+     */
+    showGameOverScreen() {
+            let game = new GameOver(this.character.x - 100);
+            setInterval(() => {
+                this.over.push(game);
+                this.draw()
+            }, 200);
+            setTimeout(() => {window.location.reload()}, 2500);
+    }
+    
+    /**
+     * this function is used to clear every intervall in the game
+     */
+    clearAllIntervals() {
+        for (let i = 1; i < 9999; i++) window.clearInterval(i);
+      }
 
     /**
      * this function is used to draw every element
@@ -285,9 +304,11 @@ class World{
         this.ctx.translate(this.camera_x,0);
 
         this.addToMap(this.bossbar)
-        this.addToMap(this.character);
+        
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.boss);
+        this.addToMap(this.character);
+       
         this.addObjectsToMap(this.level.coin);
         this.addObjectsToMap(this.throwableObject);
         this.addObjectsToMap(this.over);

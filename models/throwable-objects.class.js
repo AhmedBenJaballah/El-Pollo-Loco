@@ -36,7 +36,7 @@ constructor(x,y){
 /**
  * this function is used to attract the bottle to the ground
  */
-applyGravity(){
+applyGravityB(){
     setInterval(() => {
         if(this.isAboveGround() || this.speedY > 0 )
         {
@@ -64,7 +64,7 @@ bottleImg(){
  */
 throw(){
     this.speedY=20;
-    this.applyGravity();
+    this.applyGravityB();
     setInterval(() => {
         if(this.speedY>-25){
             this.x+=5;

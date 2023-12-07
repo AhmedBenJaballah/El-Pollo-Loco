@@ -12,6 +12,7 @@ class StatusBarBoss extends MovableObjects{
         reachedEndLeft = false;
         reachedEndRight = false;
         percetageBoss=5;
+
     
         constructor(){
             super()
@@ -22,8 +23,11 @@ class StatusBarBoss extends MovableObjects{
             this.height=60;
             this.width=200;
             this.setPercentageBoss(5);
-            this.animate();
+            this.animate2();
+            
         }
+
+        //endBossEnergy=world.level.boss[0].bossEnergie
     
         /**
          * this function is used to adjust the status bar of endboss
@@ -67,7 +71,36 @@ class StatusBarBoss extends MovableObjects{
          */
         animate(){
             setInterval(() => {
-                this.statusMove();
+                    if(world.level.boss[0]){
+                        if(world.level.boss[0].bossEnergie==5)this.statusMove();
+                        else if(world.level.boss[0].bossEnergie==4){
+                            this.reachedEndLeft = true;
+                            this.reachedEndRight = true;
+                            this.moveLeft();
+                            this.speed=20;}
+                        else if( world.level.boss[0].bossEnergie==2 || world.level.boss[0].bossEnergie==1 ||  world.level.boss[0].bossEnergie==3 ){
+                            this.reachedEndLeft = true;
+                            this.reachedEndRight = true;
+                            this.moveLeft();
+                            this.speed=40;
+                        }
+                    }
+            }, 100);
+        }
+
+        firstContact=false;
+
+        animate2(){
+            setInterval(() => {
+                if(world.level.boss[0]){
+                if(world.character.x>2200 && !this.firstContact) this.firstContact=true
+                else if(this.firstContact && (world.level.boss[0].bossEnergie==5 || world.level.boss[0].bossEnergie==4 )){
+                    this.moveLeft();
+                    this.speed=20;}
+                else if( world.level.boss[0].bossEnergie==2 || world.level.boss[0].bossEnergie==1 ||  world.level.boss[0].bossEnergie==3 ){
+                    this.moveLeft();
+                    this.speed=25;}
+                }
             }, 100);
         }
     

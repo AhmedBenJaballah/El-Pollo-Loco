@@ -39,6 +39,7 @@ h1{
     height:480px;
     border-radius: 35px;
     cursor: pointer;
+    display: block;
 }
 
 .btns{
@@ -86,8 +87,8 @@ p{
 
 .turnDev{
     position: absolute;
-    height: 100vh;
-    width: 100vw;
+    height: 99%;
+    width: 100%;
     top:0;
     left:0;
     background-color: rgba(0, 0, 0, 0.7);
@@ -110,6 +111,24 @@ p{
     gap: 4px;
 }
 
+.btnStart{
+    position: absolute;
+    top:10px;
+    left:275px;
+    width: 200px;
+    height: 40px;
+    color: white;
+    font-size: 20px;
+    background-color: cornflowerblue;
+    border-radius: 8px;
+    border: 1px solid white;
+}
+
+.btnStart:hover{
+    background-color: blue;
+    cursor: pointer;
+}
+
 @media only screen and (max-width:720px){
     canvas{
         width: 100%;
@@ -118,7 +137,7 @@ p{
     #start {
         object-fit: cover;
         width: 100%;
-        height: auto; 
+ 
     }
 
     #btnPanel{
@@ -142,13 +161,13 @@ p{
 
 @media only screen and (max-height:480px){
     canvas{
-        width: 100vw;
+        height: 99vh;
     }
 
     #start {
         object-fit: cover;
-        width: 100vw; 
-        height: auto; 
+        height: 99vh; 
+ 
     }
 
     #btnPanel{
